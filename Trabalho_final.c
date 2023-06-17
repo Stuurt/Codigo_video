@@ -1,8 +1,14 @@
 /*Alunos:
 
-Alex xavier de moraes                                           Periodo: Manha
+Alex xavier de moraes                                           Periodo: Noturno
 Alisson Rodrigues                                               Periodo: Noturno
 Thiago Roberto Indalecio de Oliveira                            Periodo: Noturno
+
+As linhas 41 e 42 foram utilizadas para que a IDE compreendesse os caracteres especiais como 'ç', 'ã' entre outros.
+A IDE que eu utilizei foi o Visual Studio Code
+Para rodar em qualquer outra IDE basta remover as linhas 41, 42 e a biblioteca '#include <windows.h>'.
+
+Link do video no Youtube: https://youtu.be/poAfikWYxSE
 
 */
 
@@ -19,7 +25,7 @@ typedef struct {
     float saldo;
 } Conta;
 
-void inserir(Conta* contas[], int* totalContas);
+void inserir(Conta* contas[], int* totalContas);                //O 'int*' indica que 'totalContas' é um ponteiro para um inteiro. O uso do asterisco * indica que estamos lidando com um ponteiro. Nesse caso específico, o ponteiro 'totalContas' é usado para permitir que a função altere o valor da variável 'totalContas' definida na função 'main'.
 void alterar(Conta* contas[], int totalContas);
 void procurar(Conta* contas[], int totalContas);
 void listar(Conta* contas[], int totalContas);
@@ -55,7 +61,7 @@ int main(){
         scanf("%d", &opcao);
         printf("--------------------------------------------\n");
 
-    switch (opcao) {
+    switch (opcao){
 
         case 1:
             inserir(contas, &totalContas);
@@ -111,7 +117,7 @@ void inserir(Conta* contas[], int* totalContas){
         printf("Limite de contas atingido.\n");
     }
 
-    Conta* novaconta = (Conta*) malloc (sizeof(Conta));
+    Conta* novaconta = (Conta*) malloc (sizeof(Conta));                 //Essa linha está alocando dinamicamente memória para uma nova chamada da struct
 
 
         printf("\n----------------- Cadastro -----------------\n");
@@ -123,7 +129,7 @@ void inserir(Conta* contas[], int* totalContas){
     do
     {
         printf("\nConta especial?\n");
-        printf("[ 1 - Sim | 0 - Não ] =\t"); scanf("%d", &(novaconta -> especial));
+        printf("[ 1 - Sim | 0 - Não ] =\t"); scanf("%d", &(novaconta -> especial));         //'novaconta -> especial' e um ponteiro que direciona se a 'novaconta' sera especial ou nao;
 
             if(novaconta -> especial != 0 && novaconta -> especial != 1){
                 printf("\n!!! Essa opção não é possivel !!!\n !!! Tente com '1' ou '0' !!!");
@@ -135,14 +141,14 @@ void inserir(Conta* contas[], int* totalContas){
     {
         printf("\nSaldo atual: "); scanf("%f", &(novaconta -> saldo));
             if(novaconta -> saldo < 0){
-                printf("\nNao pode iniciar com saldo negativo.\n");
+                printf("\nNão pode iniciar com saldo negativo.\n");
                 printf("\n--------------------------------------------\n");
             }
     }while(novaconta -> saldo < 0);
 
-    contas[*totalContas] = novaconta;
-    (*totalContas)++;
-    
+    contas[*totalContas] = novaconta;                                  //Aqui o "contas" e um tipo de array = "conjunto" de dados, que atribui a proxima posicao do array para "novaconta";
+    (*totalContas)++;                                                  //"totalContas" corresponde ao total de contas do codigo, aqui e um contador para que sempre quando passar por aqui somar uma conta no totalContas;
+
     printf("--------------------------------------------\n");
     printf("Conta cadastrada com sucesso.\n");
     printf("--------------------------------------------\n");
@@ -159,13 +165,13 @@ void alterar(Conta* contas[], int totalContas){
     printf("--------------------------------------------\n");
    
 
-    for (i = 0; i < totalContas; i++)
+    for (i = 0; i < totalContas; i++)                                  //Esse 'for' e responsavel por percorrer todas as contas (sera muito visto durante o codigo);
     {
-        if(contas[i] -> numero == numeroconta){
-            printf("\n\t\tOlá %s\n", contas[i] -> cliente);
+        if(contas[i] -> numero == numeroconta){                        //O 'if' aqui e responsavel por conferir quando o 'numeroconta' for igual ao numero de uma conta existente no codigo (sera muito visto durante o codigo);
+            printf("\n\t\tOlá %s\n", contas[i] -> cliente);            //'contas[i] -> cliente' e um ponteiro que e direcionado para o cliente;
             printf("Insira o novo nome de cliente: ");
-            fflush(stdin);
-            fgets(contas[i] -> cliente, 51, stdin);
+            fflush(stdin);                                             //'fflush' e usado para limpar a memoria de saida e mandar para memoria do console;
+            fgets(contas[i] -> cliente, 51, stdin);                    //'fgets' lê uma cadeia de caracteres do argumento, aqui sera o nome do cliente;
 
             printf("--------------------------------------------\n");
             printf("Dados alterados com sucesso.\n");
@@ -194,16 +200,16 @@ void procurar(Conta* contas[], int totalContas){
     for (i = 0; i < totalContas; i++)
     {
         if(contas[i] -> numero == numeroconta){
-            printf("Número da conta: %d\n", contas[i] -> numero);
-            printf("Nome do cliente: %s", contas[i] -> cliente);
+            printf("Número da conta: %d\n", contas[i] -> numero);       //'contas[i] -> numero' e um ponteiro que e direcionado para o numero da conta;
+            printf("Nome do cliente: %s", contas[i] -> cliente);        //'contas[i] -> cliente' e um ponteiro que e direcionado para o cliente da conta;
 
-                if(contas[i] -> especial == 1){
+                if(contas[i] -> especial == 1){                         //O 'if' aqui funciona para conferir a escolha anterior de '1' ou '0' para conta especial;
                     printf("Conta especial: Sim\n");
                 }else{
                     printf("Conta especial: Não\n");
                 }
 
-            printf("Saldo atual: %.2f\n", contas[i] -> saldo);
+            printf("Saldo atual: %.2f\n", contas[i] -> saldo);          //'contas[i] -> saldo' e um ponteiro que e direcionado para o saldo da conta;
             return;
         }
     }
@@ -256,7 +262,7 @@ void depositar(Conta* contas[], int totalContas){
     for (i = 0; i < totalContas; i++)
     {
         if(contas[i] -> numero == numeroconta){
-            printf("\nEssa conta pertence a/ao %s\n Esta correto?\n", contas[i] -> cliente);
+            printf("\nEssa conta pertence a/ao %s\n Esta correto?\n", contas[i] -> cliente);        //Uma maneira de conferir se o 'numeroconta' foi escolhido certo, printa o nome do cliente antes do deposito;
             printf("1 - Sim.\n");
             printf("0 - Não.\n");
             scanf("%d", &escolha);
@@ -268,7 +274,7 @@ void depositar(Conta* contas[], int totalContas){
                     printf("\nDigite o valor a ser depositado: "); scanf("%f", &valor);
 
                         if(valor > 0){
-                            contas[i] -> saldo += valor;
+                            contas[i] -> saldo += valor;                                            //'contas[i] -> saldo' e um ponteiro que e direcionado para o saldo do cliente onde apos o '+=' soma com o valor de deposito;
                             printf("--------------------------------------------\n");
                             printf("Deposito realizado com sucesso.\n");
                             printf("--------------------------------------------\n");
@@ -309,7 +315,7 @@ void sacar(Conta* contas[], int totalContas){
             printf("Digite o valor a ser sacado: "); scanf("%f", &valor);
 
                 if((valor > 0) && (valor <= contas[i] -> saldo)){
-                    contas[i] -> saldo -= valor;
+                    contas[i] -> saldo -= valor;                                                //'contas[i] -> saldo' e um ponteiro que e direcionado para o saldo do cliente onde apos o '-=' subtrai o valor do saque escolhido;
                     printf("--------------------------------------------\n");
                     printf("Saque realizado com sucesso.\n");
                     printf("--------------------------------------------\n");
@@ -372,7 +378,7 @@ void saldoGeral(Conta* contas[], int totalContas){
 
     for (i = 0; i < totalContas; i++)
     {
-        saldototal += contas[i] -> saldo;
+        saldototal += contas[i] -> saldo;                                   //Aqui o 'saldototal' representa uma variavel que apos o '+=' faz uma somatoria de todos os saldos das contas existentes;
     }
     printf("Saldo geral de todas as contas: %.2f", saldototal);
     printf("\n--------------------------------------------\n");
